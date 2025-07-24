@@ -98,3 +98,6 @@ go.work.sum
 # IDE/editor folders
 .idea/
 .vscode/
+
+*storybook.log
+storybook-static
