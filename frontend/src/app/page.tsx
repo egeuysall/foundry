@@ -36,8 +36,8 @@ const Landing: React.FC = () => {
     <main className="flex flex-col gap-18">
       {/* Hero Section */}
       <section className="w-full flex flex-col items-center gap-lg">
-        <h1 className="w-3/4 text-center">The dev workspace that keeps up with you.</h1>
-        <p className="w-3/4 text-center text-neutral-700 dark:text-neutral-300">
+        <h1 className="md:w-3/4 text-center">The dev workspace that keeps up with you.</h1>
+        <p className="md:w-3/4 text-center text-neutral-700 dark:text-neutral-300">
           A single platform to organize code, manage tasks, and document projects helping developers
           streamline their workflow and deliver results faster.
         </p>
@@ -78,7 +78,7 @@ const Landing: React.FC = () => {
 
       {/* Workflow Highlight Section */}
       <section className="w-full flex flex-col items-center gap-lg bg-primary-300 dark:bg-primary-700 p-xl rounded-md">
-        <h2 className="w-3/4 text-center">
+        <h2 className="md:w-3/4 text-center">
           Better workflows <br /> make better <span className="italic">things.</span>
         </h2>
       </section>
