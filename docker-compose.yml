@@ -1,3 +1,9 @@
+# Docker Compose file for multi-service app:
+# - frontend: Next.js app (port 3000)
+# - backend: Go API server (port 8080)
+# - nginx: reverse proxy (ports 80/443)
+# Volumes persist build artifacts and data. All services share 'app-network'.
+
 services:
   frontend:
     build:

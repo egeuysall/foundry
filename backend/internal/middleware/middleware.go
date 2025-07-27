@@ -1,3 +1,28 @@
+// Package middleware provides HTTP middleware utilities for the backend service.
+//
+// This package includes middleware for authentication (JWT validation), CORS handling,
+// and setting response content types. It also provides helpers for extracting user
+// information from the request context.
+//
+// # Middleware
+//
+//   - RequireAuth: Validates JWT tokens in the Authorization header, checks issuer, audience, and expiration,
+//     and injects the user ID into the request context. Returns 401 Unauthorized on failure.
+//   - Cors: Configures CORS headers for allowed origins, methods, and headers.
+//   - SetContentType: Sets the Content-Type header to application/json for all responses.
+//
+// # Context Utilities
+//
+//   - UserIDFromContext: Retrieves the user ID from the request context, as set by RequireAuth.
+//
+// # Usage
+//
+// Import this package and use the middleware functions with your router:
+//
+//   r.Use(middleware.RequireAuth())
+//   r.Use(middleware.Cors())
+//   r.Use(middleware.SetContentType())
+//
 package middleware
 
 import (
@@ -9,15 +34,23 @@ import (
 	"strings"
 	"time"
 
-	"github.com/egeuysall/cove/internal/utils"
+	// "github.com/egeuysall/cove/internal/utils"
 	"github.com/go-chi/cors"
 	"github.com/golang-jwt/jwt/v5"
 )
 
+// contextKey is a custom type for context keys used in this package.
 type contextKey string
 
+// userIDKey is the context key for storing the authenticated user's ID.
 const userIDKey = contextKey("userID")
 
+// RequireAuth returns a middleware that enforces JWT authentication.
+//
+// It expects the Authorization header in the form "Bearer <token>".
+// The JWT is validated using the SUPABASE_JWT_SECRET, and issuer/audience are checked
+// against SUPABASE_ISSUER and SUPABASE_AUDIENCE (or "authenticated" by default).
+// On success, the user ID (subject) is added to the request context.
 func RequireAuth() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -109,11 +142,20 @@ func RequireAuth() func(http.Handler) http.Handler {
 	}
 }
 
+// UserIDFromContext extracts the user ID from the context as set by RequireAuth.
+//
+// Returns the user ID string and true if present, or an empty string and false otherwise.
 func UserIDFromContext(ctx context.Context) (string, bool) {
 	userID, ok := ctx.Value(userIDKey).(string)
 	return userID, ok
 }
 
+// Cors returns a middleware that sets CORS headers for allowed origins, methods, and headers.
+//
+// Allowed origins: https://www.cove.egeuysal.com, http://localhost:3000
+// Allowed methods: GET, POST, PATCH, DELETE, OPTIONS
+// Allowed headers: Accept, Authorization, Content-Type, X-CSRF-Token
+// Credentials are allowed. MaxAge is 3600 seconds.
 func Cors() func(next http.Handler) http.Handler {
 	return cors.Handler(cors.Options{
 		AllowedOrigins:   []string{"https://www.cove.egeuysal.com", "http://localhost:3000"},
@@ -124,6 +166,8 @@ func Cors() func(next http.Handler) http.Handler {
 	})
 }
 
+// SetContentType returns a middleware that sets the Content-Type header to application/json
+// for all HTTP responses.
 func SetContentType() func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

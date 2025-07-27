@@ -304,6 +304,9 @@ The project includes Nginx configuration for:
 - **Static file serving**
 - **Gzip compression**
 
+> **IMPORTANT**: Run `sudo certbot certonly --standalone -d <YOUR_DOMAIN> --email <YOUR_EMAIL> --agree-tos --no-eff-email
+` command before running `docker compose up --build -d`
+
 ### Docker Configuration
 
 - **Multi-stage builds** for optimized images
