@@ -19,14 +19,20 @@ function CardHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="card-header"
-      className={cn('grid auto-rows-min grid-rows-[auto_auto] items-start gap-sm px-xl', className)}
+      className={cn('grid auto-rows-min grid-rows-[auto_auto] items-start px-xl', className)}
       {...props}
     />
   );
 }
 
 function CardTitle({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div data-slot="card-title" className={cn('font-semibold', className)} {...props} />;
+  return (
+    <div
+      data-slot="card-title"
+      className={cn('font-semibold font-heading', className)}
+      {...props}
+    />
+  );
 }
 
 function CardDescription({ className, ...props }: React.ComponentProps<'div'>) {

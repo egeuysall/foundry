@@ -156,7 +156,7 @@
   h5,
   h6 {
     @apply font-heading;
-    @apply font-bold;
+    @apply font-semibold;
     @apply mb-xs;
   }
 
