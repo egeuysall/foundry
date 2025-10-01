@@ -97,6 +97,7 @@ go.work.sum
 
 # IDE/editor folders
 .idea/
+.claude/
 .vscode/
 
 *storybook.log
