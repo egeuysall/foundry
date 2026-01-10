@@ -7,10 +7,10 @@
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./apps/web
       dockerfile: Dockerfile
     env_file:
-      - ./frontend/.env
+      - ./apps/web/.env
     ports:
       - "3000:3000"
     environment:
@@ -25,11 +25,11 @@ services:
 
   backend:
     build:
-      context: ./backend
+      context: ./apps/api
     ports:
       - "8080:8080"
     env_file:
-      - ./backend/.env
+      - ./apps/api/.env
     volumes:
       - go_data:/root/data
     networks:
@@ -44,8 +44,8 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./infra/nginx/conf.d:/etc/nginx/conf.d:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - backend
